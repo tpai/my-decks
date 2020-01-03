@@ -1,0 +1,151 @@
+import {
+  CodeSurfer,
+  CodeSurferColumns,
+  Step,
+} from "code-surfer";
+import { github, vsDark } from "@code-surfer/themes";
+
+export const theme = vsDark;
+
+# How to build a handy👋 JS library?
+
+A brief talk about library and module.
+
+---
+
+<CodeSurfer>
+
+```json subtitle="npm library"
+"dependencies": {
+  "utility": "^1.0.0"
+}
+```
+
+```json subtitle="local repo"
+"dependencies": {
+  "utility": "../utility"
+}
+```
+
+
+```json subtitle="github repo"
+"dependencies": {
+  "utility": "git+ssh://git@github.com:fe/utility#{branch|tag}"
+}
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurferColumns themes={[vsDark, github]}>
+
+<Step>
+
+```js subtitle="IIFE (Browser)"
+var utility = (function(exports) {
+  const addOne = n => Number(n) + 1
+  exports.addOne = addOne
+  return exports
+}({}))
+```
+
+```js subtitle="Usage"
+utility.addOne(0)
+```
+
+</Step>
+
+<Step>
+
+```js subtitle="CJS (ES5) default export"
+const addOne = n => Number(n) + 1
+module.exports = { addOne }
+```
+
+```js subtitle="Usage"
+const utility = require('utility')
+utility.addOne(0)
+```
+
+</Step>
+
+<Step>
+
+```js subtitle="ESM (ES6) default export"
+const addOne = n => Number(n) + 1
+export default { addOne }
+```
+
+```js subtitle="Usage"
+import utility from 'utility'
+utility.addOne(0)
+```
+
+</Step>
+
+<Step>
+
+```js subtitle="CJS (ES5) named export"
+const addOne = n => Number(n) + 1
+exports.addOne = addOne
+```
+
+```js subtitle="Usage"
+const { addOne } = require('utility')
+addOne(0)
+```
+
+</Step>
+
+<Step>
+
+```js subtitle="ESM (ES6) named export"
+const addOne = n => Number(n) + 1
+export { addOne }
+```
+
+```js subtitle="Usage"
+import { addOne } from 'utility'
+addOne(0)
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurfer>
+
+```js subtitle="UMD (IIFE+CJS+ESM)"
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (global = global || self, factory(global['utility'] = {}));
+}(this, (function (exports) { 'use strict';
+
+  // your code
+
+  Object.defineProperty(exports, '__esModule', { value: true });
+})));
+```
+
+```js subtitle="UMD (IIFE+CJS+ESM)"
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (global = global || self, factory(global['utility'] = {}));
+}(this, (function (exports) { 'use strict';
+
+  const addOne = n => Number(n) + 1
+  exports.addOne = addOne
+
+  Object.defineProperty(exports, '__esModule', { value: true });
+})));
+```
+
+</CodeSurfer>
+
+---
+

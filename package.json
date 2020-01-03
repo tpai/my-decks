@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "jslib-modules": "mdx-deck decks/jslib-modules.mdx",
+    "build": "mdx-deck build decks/jslib-modules.mdx",
+    "test": "echo \"there are no tests\""
+  },
+  "devDependencies": {
+    "code-surfer": "3.0.0",
+    "mdx-deck": "3.0.13"
+  },
+  "resolutions": {
+    "mdx-deck/**/gatsby": "2.18.4"
+  }
+}
