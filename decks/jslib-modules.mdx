@@ -7,9 +7,38 @@ import { github, vsDark } from "@code-surfer/themes";
 
 export const theme = vsDark;
 
-# How to build a handy👋 JS library?
+# A brief talk about building a library
 
-A brief talk about library and module.
+What features should it have? 🤔
+
+---
+
+<CodeSurferColumns>
+
+<Step>
+
+```js
+// Frequent changes
+// Compatibility
+// Tree shaking
+```
+
+</Step>
+<Step>
+
+```js 1
+// Frequent changes
+// Compatibility
+// Tree shaking
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+# Library
 
 ---
 
@@ -28,9 +57,17 @@ A brief talk about library and module.
 ```
 
 
-```json subtitle="github repo"
+```json 2 subtitle="github repo"
 "dependencies": {
-  "utility": "git+ssh://git@github.com:fe/utility#{branch|tag}"
+  "utility": "git+ssh://git@github.com:fe/utility#{branch|tag}",
+  "utility": "git+https://git@github.com:fe/utility#{branch|tag}"
+}
+```
+
+```json 3 subtitle="github repo"
+"dependencies": {
+  "utility": "git+ssh://git@github.com:fe/utility#{branch|tag}",
+  "utility": "git+https://git@github.com:fe/utility#{branch|tag}"
 }
 ```
 
@@ -38,7 +75,36 @@ A brief talk about library and module.
 
 ---
 
-<CodeSurferColumns themes={[vsDark, github]}>
+<CodeSurferColumns>
+
+<Step>
+
+```js 1
+// Frequent changes
+// Compatibility
+// Tree shaking
+```
+
+</Step>
+<Step>
+
+```js 2
+// Frequent changes
+// Compatibility
+// Tree shaking
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+# Module
+
+---
+
+<CodeSurferColumns>
 
 <Step>
 
@@ -149,3 +215,560 @@ addOne(0)
 
 ---
 
+<CodeSurferColumns>
+
+<Step>
+
+```js 2
+// Frequent changes
+// Compatibility
+// Tree shaking
+```
+
+</Step>
+<Step>
+
+```js 3
+// Frequent changes
+// Compatibility
+// Tree shaking
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+Before dive into tree shaking...
+
+---
+
+# Dead Code Elimination
+
+---
+
+<CodeSurferColumns>
+
+<Step>
+
+```js subtitle="Source"
+const foo = () => {
+  let x = 1
+  if (false) {
+    return false
+  }
+
+  let y = 2
+  return x
+}
+
+const bar = () => {
+  function baz() {
+    return 'qux'
+  }
+
+  return 'quux'
+
+  let u = 'u'
+  return 'qu' + u + 'ux'
+}
+
+console.log(bar())
+```
+
+```js subtitle="Comparison"
+const foo = () => {
+  let x = 1
+  if (false) {
+    return false
+  }
+
+  let y = 2
+  return x
+}
+
+const bar = () => {
+  function baz() {
+    return 'qux'
+  }
+
+  return 'quux'
+
+  let u = 'u'
+  return 'qu' + u + 'ux'
+}
+
+console.log(bar())
+```
+
+</Step>
+
+<Step>
+
+```js subtitle="Source"
+const foo = () => {
+  let x = 1
+  if (false) {
+    return false
+  }
+
+  let y = 2
+  return x
+}
+
+const bar = () => {
+  function baz() {
+    return 'qux'
+  }
+
+  return 'quux'
+
+  let u = 'u'
+  return 'qu' + u + 'ux'
+}
+
+console.log(bar())
+```
+
+```js 7,12:14 subtitle="Dead Variable"
+const foo = () => {
+  let x = 1
+  if (false) {
+    return false
+  }
+
+  let y = 2
+  return x
+}
+
+const bar = () => {
+  function baz() {
+    return 'qux'
+  }
+
+  return 'quux'
+
+  let u = 'u'
+  return 'qu' + u + 'ux'
+}
+
+console.log(bar())
+```
+
+</Step>
+
+<Step>
+
+```js subtitle="Source"
+const foo = () => {
+  let x = 1
+  if (false) {
+    return false
+  }
+
+  let y = 2
+  return x
+}
+
+const bar = () => {
+  function baz() {
+    return 'qux'
+  }
+
+  return 'quux'
+
+  let u = 'u'
+  return 'qu' + u + 'ux'
+}
+
+console.log(bar())
+```
+
+```js 3:5,18:19 subtitle="Unreachable Code"
+const foo = () => {
+  let x = 1
+  if (false) {
+    return false
+  }
+
+  let y = 2
+  return x
+}
+
+const bar = () => {
+  function baz() {
+    return 'qux'
+  }
+
+  return 'quux'
+
+  let u = 'u'
+  return 'qu' + u + 'ux'
+}
+
+console.log(bar())
+```
+
+</Step>
+
+<Step>
+
+```js subtitle="Source"
+const foo = () => {
+  let x = 1
+  if (false) {
+    return false
+  }
+
+  let y = 2
+  return x
+}
+
+const bar = () => {
+  function baz() {
+    return 'qux'
+  }
+
+  return 'quux'
+
+  let u = 'u'
+  return 'qu' + u + 'ux'
+}
+
+console.log(bar())
+```
+
+```js subtitle="Expected Result"
+const foo = () => {
+  let x = 1
+  return x
+}
+
+const bar = () => {
+  return 'quux'
+}
+
+console.log(bar())
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+# Tree Shaking
+
+---
+
+<CodeSurferColumns>
+
+<Step>
+
+```js subtitle="Source"
+const foo = () => {
+  let x = 1
+  if (false) {
+    return false
+  }
+
+  let y = 2
+  return x
+}
+
+const bar = () => {
+  function baz() {
+    return 'qux'
+  }
+
+  return 'quux'
+
+  let u = 'u'
+  return 'qu' + u + 'ux'
+}
+
+console.log(bar())
+```
+
+```js subtitle="Comparison"
+const foo = () => {
+  let x = 1
+  return x
+}
+
+const bar = () => {
+  return 'quux'
+}
+
+console.log(bar())
+```
+
+</Step>
+
+<Step>
+
+```js subtitle="Source"
+const foo = () => {
+  let x = 1
+  if (false) {
+    return false
+  }
+
+  let y = 2
+  return x
+}
+
+const bar = () => {
+  function baz() {
+    return 'qux'
+  }
+
+  return 'quux'
+
+  let u = 'u'
+  return 'qu' + u + 'ux'
+}
+
+console.log(bar())
+```
+
+```js 6:10 subtitle="Comparison"
+const foo = () => {
+  let x = 1
+  return x
+}
+
+const bar = () => {
+  return 'quux'
+}
+
+console.log(bar())
+```
+
+</Step>
+
+<Step>
+
+```js subtitle="Source"
+const foo = () => {
+  let x = 1
+  if (false) {
+    return false
+  }
+
+  let y = 2
+  return x
+}
+
+const bar = () => {
+  function baz() {
+    return 'qux'
+  }
+
+  return 'quux'
+
+  let u = 'u'
+  return 'qu' + u + 'ux'
+}
+
+console.log(bar())
+```
+
+```js subtitle="Expected Result"
+const bar = () => {
+  return 'quux'
+}
+
+console.log(bar())
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns>
+
+<Step>
+
+```js 2:3 subtitle="Rollup"
+"use strict";
+var bar=function(){return"quux"};
+console.log(bar());
+```
+
+```js 2 subtitle="Webpack"
+(function(e){...})([function(e, t, n) {
+  console.log("quux")
+}])
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns>
+
+<Step>
+
+```js
+// math-class.js
+class Math {
+  add(a, b) {
+    return a + b
+  }
+  subtract(a, b) {
+    return a - b
+  }
+
+  multiply(a, b) {
+    return a * b
+  }
+  divide(a, b) {
+    return a / b
+  }
+}
+
+export default Math
+```
+
+```js
+// math-func.js
+export function add(a, b) {
+  return a + b
+}
+export function subtract(a, b) {
+  return a - b
+}
+export function multiply(a, b) {
+  return a * b
+}
+export function divide(a, b) {
+  return a / b
+}
+```
+
+```js
+import Math from './math-class'
+import { add } from './math-func'
+
+console.log(add(3, 4))
+```
+
+</Step>
+
+<Step>
+
+```js 9
+// math-class.js
+class Math {
+  add(a, b) {
+    return a + b
+  }
+  subtract(a, b) {
+    return a - b
+  }
+
+  multiply(a, b) {
+    return a * b
+  }
+  divide(a, b) {
+    return a / b
+  }
+}
+
+export default Math
+```
+
+```js 2:4
+// math-func.js
+export function add(a, b) {
+  return a + b
+}
+export function subtract(a, b) {
+  return a - b
+}
+export function multiply(a, b) {
+  return a * b
+}
+export function divide(a, b) {
+  return a / b
+}
+```
+
+```js 2:4
+import Math from './math-class'
+import { add } from './math-func'
+
+console.log(add(3, 4))
+```
+
+</Step>
+
+<Step>
+
+```js
+ 
+```
+
+```js
+export function add(a, b) {
+  return a + b
+}
+```
+
+```js
+import { add } from './math-func'
+
+console.log(add(3, 4))
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns>
+
+<Step>
+
+```js 2:3 subtitle="Rollup"
+"use strict";
+function add(d,n){return d+n}
+console.log(add(3,4));
+
+```
+
+```js 5 subtitle="Webpack"
+(function(e){...})([
+  function(e,t,r){
+    "use strict";
+    r.r(t);
+    console.log(3+4)
+  }
+])
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+# Proof
+
+- Tree shaking works
+- How does bundler shake **Class** off?
+
+---
+
+# Bonus
+
+- **Yarn** traps
+  - module field and .gitignore
+  - git+ssh and git+https　どっち！？
