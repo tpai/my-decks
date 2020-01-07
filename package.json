@@ -2,9 +2,8 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "jslib-modules": "mdx-deck decks/jslib-modules.mdx",
-    "build": "mdx-deck build decks/jslib-modules.mdx",
-    "test": "echo \"there are no tests\""
+    "start": "mdx-deck",
+    "build": "mdx-deck build"
   },
   "devDependencies": {
     "code-surfer": "3.0.0",
