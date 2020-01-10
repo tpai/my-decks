@@ -1,23 +1,27 @@
-# MDX Deck + Code Surfer template
+# My Decks
 
-This project was generated with the `npm init code-surfer-deck` command.
+My fancy code slides with animation
 
-## Development
+## Usage
 
-To run the presentation deck in development mode:
+Install dependencies
 
-```sh
-npm start
+```
+yarn
 ```
 
-Edit the [`deck.mdx`](deck.mdx) file to get started.
+Start server
 
-## Exporting
+```
+Usage: yarn start [path-of-deck]
 
-To build the presentation deck:
-
-```sh
-npm run build
+yarn start decks/jslib-modules.mdx
 ```
 
-For more documentation see [MDX Deck](https://github.com/jxnblk/mdx-deck) and [Code Surfer](https://codesurfer.pomb.us/)
+Build html output
+
+```
+Usage: yarn build [path-of-deck]
+
+yarn build decks/jslib-modules.mdx
+```
